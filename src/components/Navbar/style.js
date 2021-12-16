@@ -3,7 +3,7 @@ import theme from "../../styles/theme";
 
 export const Nav = styled.nav`
   background: white;
-  min-height: 86px;
+  min-height: 70px;
   justify-content: center;
   position: sticky;
   top: 0;
@@ -36,6 +36,9 @@ export const NavItems = styled.div`
   align-self: center;
   align-items: center;
   column-gap: 40px;
+  @media screen and (max-width: ${(props) => props.theme.screen.sm}) {
+    display: none;
+  }
 `;
 
 export const NavButton = styled.button`
@@ -46,7 +49,22 @@ export const NavButton = styled.button`
   border-radius: 5px;
   font-family: 'Roboto',sans-serif;
   font-weight: bold;
+  transition: all .3s ease-in;
   &:hover{
     transform: scale(1.1);
+  }
+`;
+
+export const MobileIcon = styled.div`
+  display: none;
+  @media screen and (max-width: ${(props) => props.theme.screen.sm}) {
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translate(-100%, 60%);
+    font-size: 1.8rem;
+    cursor: pointer;
+    color: black;
   }
 `;
