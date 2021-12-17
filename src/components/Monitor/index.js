@@ -1,6 +1,15 @@
 /* eslint-disable eqeqeq */
 import React, { useState, useEffect } from "react";
-import { Chart as ChartJS } from "chart.js";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js'
 import { Line } from "react-chartjs-2";
 import { MDBContainer } from "mdbreact";
 import axios from "axios";
@@ -14,7 +23,15 @@ import {
 } from "./styled";
 import moment from "moment";
 
-ChartJS.register(Line);
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+)
 
 const MonitorPage = () => {
   const [data, setData] = useState([]);
