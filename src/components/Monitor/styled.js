@@ -18,6 +18,12 @@ export const MonitorGrid = styled.div`
   }
 `;
 
+export const GraphScrolled = styled.article`
+  width: 100%;
+  overflow-x: scroll;
+  height: 60vh;
+`;
+
 export const TitleBox = styled.div`
   background: ${(props) => props.color};
   padding: 20px;

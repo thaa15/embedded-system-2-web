@@ -9,7 +9,7 @@ import {
   Title,
   Tooltip,
   Legend,
-} from 'chart.js'
+} from "chart.js";
 import { Line } from "react-chartjs-2";
 import { MDBContainer } from "mdbreact";
 import axios from "axios";
@@ -20,6 +20,7 @@ import {
   TitleBox,
   ExplainedBox,
   ButtonChange,
+  GraphScrolled,
 } from "./styled";
 import moment from "moment";
 
@@ -31,13 +32,14 @@ ChartJS.register(
   Title,
   Tooltip,
   Legend
-)
+);
 
 const MonitorPage = () => {
   const [data, setData] = useState([]);
   const [labels, setLabels] = useState([]);
   const [datasets, setDatasets] = useState([]);
   const [states, setStates] = useState(0);
+  const [start, setStart] = useState(0);
   useEffect(() => {
     const source = axios.CancelToken.source();
     const fetchData = async () => {
@@ -59,8 +61,10 @@ const MonitorPage = () => {
     };
     fetchData();
     fetchData2();
+    if (data.length < 13) setStart(0);
+    else setStart(data.length - 11);
     setLabels(
-      data.slice(data.length - 11, data.length).map((item) => {
+      data.slice(start, data.length).map((item) => {
         return moment(item.insertedAt).format("DD-MM-YYYY, h:mm:ss a");
       })
     );
@@ -84,22 +88,49 @@ const MonitorPage = () => {
         pointHoverBorderWidth: 2,
         pointRadius: 1,
         pointHitRadius: 10,
-        data: data.slice(data.length - 11, data.length).map((item) => {
+        data: data.slice(start, data.length).map((item) => {
           return item.suhu;
+        }),
+      },
+      {
+        label: "Hum",
+        fill: true,
+        lineTension: 0.3,
+        backgroundColor: "rgba(184, 185, 210, .3)",
+        borderColor: "rgb(35, 26, 136)",
+        borderCapStyle: "butt",
+        borderDash: [],
+        borderDashOffset: 0.0,
+        borderJoinStyle: "miter",
+        pointBorderColor: "rgb(35, 26, 136)",
+        pointBackgroundColor: "rgb(255, 255, 255)",
+        pointBorderWidth: 10,
+        pointHoverRadius: 5,
+        pointHoverBackgroundColor: "rgb(0, 0, 0)",
+        pointHoverBorderColor: "rgba(220, 220, 220, 1)",
+        pointHoverBorderWidth: 2,
+        pointRadius: 1,
+        pointHitRadius: 10,
+        data: data.slice(start, data.length).map((item) => {
+          return item.hum;
         }),
       },
     ]);
     return () => {
       source.cancel();
     };
-  }, [data]);
+  }, [data, start]);
 
-  let lastDate = data.slice(data.length - 1, data.length).map((item) => {
-    return new Date(item.insertedAt).getTime();
-  });
-
-  let diff = new Date().getTime() - lastDate[0];
-  let minutes = Math.floor(diff / 1000 / 60);
+  let minutes = 0;
+  if (data.length != 0) {
+    let lastDate = data.slice(data.length - 1, data.length).map((item) => {
+      return new Date(item.insertedAt).getTime();
+    });
+    let diff = new Date().getTime() - lastDate[0];
+    minutes = Math.floor(diff / 1000 / 60);
+  } else {
+    minutes = 5;
+  }
 
   const ChangePosition = async () => {
     if (minutes <= 4) {
@@ -133,11 +164,17 @@ const MonitorPage = () => {
     <TemplateMonitor>
       <MDBContainer>
         <h3
-          style={{ margin: "50px auto 0", width: "100%", textAlign: "center" }}
+          style={{
+            margin: "50px auto 0",
+            width: "100%",
+            textAlign: "center",
+          }}
         >
           Line Chart Data Raidigo
         </h3>
-        <Line data={{ labels, datasets }} options={{ responsive: true }} />
+        <GraphScrolled>
+          <Line data={{ labels, datasets }} options={{maintainAspectRatio: false}} />
+        </GraphScrolled>
       </MDBContainer>
       <h3 style={{ margin: "50px auto 0", width: "100%", textAlign: "center" }}>
         Last Data
@@ -146,42 +183,74 @@ const MonitorPage = () => {
         <div style={{ width: "100%" }}>
           <TitleBox color={theme.color.blue.A900}>Temperature</TitleBox>
           <ExplainedBox color={theme.color.blue.A900}>
-            {data.slice(data.length - 1, data.length).map((item) => {
-              return item.suhu;
-            })}
+            {data.length == 0 ? (
+              0
+            ) : (
+              <>
+                {data.slice(data.length - 1, data.length).map((item) => {
+                  return item.suhu;
+                })}
+              </>
+            )}
+            °C
           </ExplainedBox>
         </div>
         <div style={{ width: "100%" }}>
-          <TitleBox color={theme.color.red}>Humadity</TitleBox>
+          <TitleBox color={theme.color.red}>Humidity</TitleBox>
           <ExplainedBox color={theme.color.red}>
-            {data.slice(data.length - 1, data.length).map((item) => {
-              return item.hum;
-            })}
+            {data.length == 0 ? (
+              0
+            ) : (
+              <>
+                {data.slice(data.length - 1, data.length).map((item) => {
+                  return item.hum;
+                })}
+              </>
+            )}
+            %
           </ExplainedBox>
         </div>
         <div style={{ width: "100%" }}>
           <TitleBox color={theme.color.black.A500}>Rain Drop</TitleBox>
           <ExplainedBox color={theme.color.black.A500}>
-            {data.slice(data.length - 1, data.length).map((item) => {
-              return item.raindrop;
-            })}
+            {data.length == 0 ? (
+              0
+            ) : (
+              <>
+                {data.slice(data.length - 1, data.length).map((item) => {
+                  return item.raindrop;
+                })}
+              </>
+            )}
           </ExplainedBox>
         </div>
         <div style={{ width: "100%" }}>
           <TitleBox color={theme.color.green.A700}>Light</TitleBox>
           <ExplainedBox color={theme.color.green.A700}>
-            {data.slice(data.length - 1, data.length).map((item) => {
-              return item.cahaya;
-            })}
+            {data.length == 0 ? (
+              0
+            ) : (
+              <>
+                {data.slice(data.length - 1, data.length).map((item) => {
+                  return item.cahaya;
+                })}
+              </>
+            )}
           </ExplainedBox>
         </div>
       </MonitorGrid>
       <h3 style={{ margin: "50px auto 0", width: "100%", textAlign: "center" }}>
         Situation:{" "}
         <span style={{ color: theme.color.red }}>
-          {data.slice(data.length - 1, data.length).map((item) => {
-            return item.keterangan;
-          })}
+          {data.length == 0 ? (
+            "Tidak Diketahui"
+          ) : (
+            <>
+              {data.slice(data.length - 1, data.length).map((item) => {
+                return item.keterangan;
+              })}
+            </>
+          )}
         </span>
       </h3>
       <h3 style={{ margin: "50px auto 0", width: "100%", textAlign: "center" }}>
