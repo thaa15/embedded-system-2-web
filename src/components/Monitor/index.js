@@ -1,5 +1,6 @@
 /* eslint-disable eqeqeq */
 import React, { useState, useEffect } from "react";
+import { Chart as ChartJS } from "chart.js";
 import { Line } from "react-chartjs-2";
 import { MDBContainer } from "mdbreact";
 import axios from "axios";
@@ -12,6 +13,8 @@ import {
   ButtonChange,
 } from "./styled";
 import moment from "moment";
+
+ChartJS.register(Line);
 
 const MonitorPage = () => {
   const [data, setData] = useState([]);
@@ -29,8 +32,7 @@ const MonitorPage = () => {
           }
         );
         setData(response.data.data.filteredData);
-      } catch (e) {
-      }
+      } catch (e) {}
     };
     const fetchData2 = async () => {
       const response = await axios.get(
