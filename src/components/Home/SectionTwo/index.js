@@ -31,7 +31,8 @@ const HomeSectionTwo = () => {
           number of water droplets on a raindrop sensor that is secure and
           effective for the IoT platform. Raidigo utilizes the cloud platform as
           a database, watchdog timer on the microcontroller, and multitasking.
-          This project is as an Immersion 2 semester final exam assignment.
+          This project is as an embedded system 2 semester final exam
+          assignment.
         </h6>
       </SectionTwoExplained>
       <SectionTwoEmbedYT>

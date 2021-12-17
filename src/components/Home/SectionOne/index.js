@@ -13,7 +13,7 @@ const HomeSectionOne = () => {
         <h6 style={{ color: "white", fontStyle: "italic", margin: "0 20px", textAlign: "center" }}>
           Click the button below to the IoT Device
         </h6>
-        <SectionOneButton to="/">Monitor!</SectionOneButton>
+        <SectionOneButton to="/monitor">Monitor!</SectionOneButton>
       </SectionOneWelcomed>
     </SectionOneHomeBg>
   );

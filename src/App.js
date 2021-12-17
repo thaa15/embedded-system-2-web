@@ -8,6 +8,8 @@ import Navbar from "./components/Navbar";
 import Sidebar from "./components/Sidebar";
 import Footer from "./components/Footer";
 import Home from "./Pages";
+import MonitorPage from "./components/Monitor";
+import ScrollToTop from "./components/ScrollToTop";
 
 function App() {
   const [isOpen, setIsOpen] = useState(false);
@@ -21,9 +23,11 @@ function App() {
           <div className="content-wrap">
             <Sidebar isOpen={isOpen} toggle={toggle} />
             <Navbar toggle={toggle} />
+            <ScrollToTop />
             <GlobalStyles />
             <Routes>
               <Route path="/" element={<Home />} exact />
+              <Route path="/monitor" element={<MonitorPage />} exact />
             </Routes>
           </div>
           <Footer />

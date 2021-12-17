@@ -16,7 +16,7 @@ const Navbar = ({ toggle }) => {
           <Link to="/">
             <NavButton mon>Home</NavButton>
           </Link>
-          <Link to="/">
+          <Link to="/monitor">
             <NavButton>Monitor</NavButton>
           </Link>
         </NavItems>
