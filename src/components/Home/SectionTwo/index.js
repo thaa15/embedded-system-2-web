@@ -39,7 +39,7 @@ const HomeSectionTwo = () => {
         <iframe
           width={obj.width}
           height={obj.height}
-          src="https://www.youtube.com/embed/EqboAI-Vk-U"
+          src="https://www.youtube.com/embed/pwQPfT2C6-4"
           title="YouTube video player"
           frameBorder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"

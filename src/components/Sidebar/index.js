@@ -24,7 +24,7 @@ const Sidebar = ({ isOpen, toggle }) => {
             </SidebarLink>
           </SideBtnWrap>
           <SideBtnWrap>
-            <SidebarRoute to="/" onClick={toggle}>
+            <SidebarRoute to="/monitor" onClick={toggle}>
               Monitor
             </SidebarRoute>
           </SideBtnWrap>
